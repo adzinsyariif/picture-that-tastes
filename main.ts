@@ -81,8 +81,11 @@ function softEllipse(x: number, y: number, cx: number, cy: number, rx: number, r
 }
 
 // ---------- 2. soft contact shadow ----------
-for (let y = 700; y < 980; y++) {
-  for (let x = 180; x < 850; x++) {
+// The shadow ellipse fades to zero at d = 1 + soft (1.75), i.e. x within
+// 512 +/- 296*1.75 and y within 868 +/- 46*1.75. Loop over that full support
+// so the shadow never gets cut off mid-fade into a hard rectangle edge.
+for (let y = 780; y < 955; y++) {
+  for (let x = 0; x < W; x++) {
     const a = softEllipse(x, y, 512, 868, 296, 46, 0.75) * 0.38;
     if (a > 0.004) setPx(x, y, 4, 2, 2, a * 255);
   }
